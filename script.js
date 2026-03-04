@@ -13,7 +13,7 @@ const displayCategories = (categories) => {
     const categoryContainer = document.getElementById('categories')
     categories.forEach(category => {
         const li = document.createElement('li')
-        // loadCategoryNews(li.id = category.id)
+        li.id = category.id
         li.classList.add('hover:border-b-4', 'hover:border-b-red-700', 'text-xl', 'cursor-pointer')
         li.innerText = `${category.title}`
         categoryContainer.append(li)
@@ -32,15 +32,42 @@ const displayCategories = (categories) => {
 
         if (e.target.localName === 'li') {
             e.target.classList.add('border-b-4', 'border-b-red-700')
+            loadCategoryNews(e.target.id)
         }
 
     })
 }
 
-// const loadCategoryNews = (id) => {
-//     console.log(id);
+const loadCategoryNews = async (id) => {
+    try {
+        const res = await fetch(`https://news-api-fs.vercel.app/api/categories/${id}`)
+        const data = await res.json()
+        displayCategoryData(data.articles);
 
-// }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const displayCategoryData = (news) => {
+    const newsCardSection = document.getElementById('newsCardSection')
+    newsCardSection.innerHTML = ''
+    news.forEach(n => {
+        console.log(n);
+
+        const newDiv = document.createElement('div')
+        newDiv.className = "flex flex-col "
+        newDiv.innerHTML = `
+                <img src=${n.image.srcset[2].url} class = "w-full h-auto" alt="">
+                <h1 class="text-xl">${n.title}</h1>
+        `
+        newsCardSection.append(newDiv)
+    })
+
+
+
+
+}
 
 
 
