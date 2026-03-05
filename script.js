@@ -22,7 +22,10 @@ const displayCategories = (categories) => {
         // <li id= ${category.id} class="hover:border-b-4 hover:border-b-red-700 text-xl">${category.title} </li>
         // `
     });
-
+    const mainList = document.getElementById('main')
+    if (mainList) {
+        mainList.classList.add('border-b-4', 'border-b-red-700')
+    }
     categoryContainer.addEventListener('click', (e) => {
         const allLi = document.querySelectorAll('li')
         // console.log(allLi);
@@ -56,10 +59,16 @@ const displayCategoryData = (news) => {
         console.log(n);
 
         const newDiv = document.createElement('div')
-        newDiv.className = "flex flex-col "
+        newDiv.className = "flex flex-col justify-between"
         newDiv.innerHTML = `
                 <img src=${n.image.srcset[2].url} class = "w-full h-auto" alt="">
-                <h1 class="text-xl">${n.title}</h1>
+              <a href=" ${n.link} " target=_blank class="hover:underline">  <h1 class="text-xl">${n.title}</h1></a>
+
+              <div> 
+              <p>Published at: ${n.time}
+              <p>Published at: ${n.scrapedAt}
+              </div>
+                
         `
         newsCardSection.append(newDiv)
     })
@@ -73,3 +82,4 @@ const displayCategoryData = (news) => {
 
 
 loadCategory()
+loadCategoryNews('main')
